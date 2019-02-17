@@ -6,14 +6,14 @@ public class AnnualDataInfo {
     private double q2Usage;
     private double q3Usage;
     private double q4Usage;
+    private String year;
 
-    public AnnualDataInfo(double q1Usage, double q2Usage, double q3Usage, double q4Usage) {
-
+    public AnnualDataInfo(String year, double q1Usage, double q2Usage, double q3Usage, double q4Usage) {
+        this.year = year;
         this.q1Usage = q1Usage;
         this.q2Usage = q2Usage;
         this.q3Usage = q3Usage;
         this.q4Usage = q4Usage;
-
     }
 
     public AnnualDataInfo() {
@@ -23,8 +23,14 @@ public class AnnualDataInfo {
         this.q4Usage = 0;
     }
 
-    public double getAnnualUsage() {
-        return q1Usage + q2Usage + q3Usage + q4Usage;
+
+    // getters
+    public String getYear() {
+        return year;
+    }
+
+    public String getAnnualUsage() {
+        return Double.toString(q1Usage + q2Usage + q3Usage + q4Usage);
     }
 
     public double getQ1Usage() {
@@ -41,6 +47,12 @@ public class AnnualDataInfo {
 
     public double getQ4Usage() {
         return q4Usage;
+    }
+
+
+    // setters
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public void setQ1Usage(double q1Usage) {
