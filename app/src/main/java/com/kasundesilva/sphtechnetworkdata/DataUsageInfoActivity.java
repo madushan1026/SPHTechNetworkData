@@ -2,9 +2,9 @@ package com.kasundesilva.sphtechnetworkdata;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.kasundesilva.sphtechnetworkdata.adapters.DataInfoAdapter;
 import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
 import com.kasundesilva.sphtechnetworkdata.viewmodels.DataUsageViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataUsageInfoActivity extends AppCompatActivity {
@@ -33,6 +32,8 @@ public class DataUsageInfoActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progress_bar);
 
         mDataUsageViewModel = ViewModelProviders.of(this).get(DataUsageViewModel.class);
+
+        mDataUsageViewModel.init();
 
         mDataUsageViewModel.getAnnualData().observe(this, new Observer<List<AnnualDataInfo>>() {
             @Override
