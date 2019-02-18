@@ -79,6 +79,7 @@ public class DataUsageRepository {
 
                     prvYear = yearNquater[0];
                 }
+                // adding last data
                 dataSet.add(aData);
                 data.setValue(dataSet);
             }

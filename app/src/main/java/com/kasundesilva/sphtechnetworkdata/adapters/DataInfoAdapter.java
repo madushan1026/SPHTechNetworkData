@@ -11,12 +11,11 @@ import android.widget.TextView;
 import com.kasundesilva.sphtechnetworkdata.R;
 import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<AnnualDataInfo> mAnnualData = new ArrayList<>();
+    private List<AnnualDataInfo> mAnnualData;
     private Context mContext;
 
 
@@ -36,14 +35,14 @@ public class DataInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-        ((ViewHolder)viewHolder).mYear.setText(mAnnualData.get(i).getYear());
-        ((ViewHolder)viewHolder).mUsage.setText(mAnnualData.get(i).getAnnualUsage());
+        ((ViewHolder) viewHolder).mYear.setText(mAnnualData.get(i).getYear());
+        ((ViewHolder) viewHolder).mUsage.setText(mAnnualData.get(i).getAnnualUsage());
 
     }
 
     @Override
     public int getItemCount() {
-       return mAnnualData.size();
+        return mAnnualData.size();
     }
 
     public void setmAnnualData(List<AnnualDataInfo> mAnnualData) {

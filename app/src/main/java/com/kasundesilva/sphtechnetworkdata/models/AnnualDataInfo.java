@@ -33,6 +33,10 @@ public class AnnualDataInfo {
         return Double.toString(q1Usage + q2Usage + q3Usage + q4Usage);
     }
 
+    public boolean isDecreased() {
+        return true;
+    }
+
     public void setUsagebyQuater(){
 
     }
