@@ -46,6 +46,10 @@ public class DataInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
        return mAnnualData.size();
     }
 
+    public void setmAnnualData(List<AnnualDataInfo> mAnnualData) {
+        this.mAnnualData = mAnnualData;
+    }
+
 
     // View holder class
     private class ViewHolder extends RecyclerView.ViewHolder {

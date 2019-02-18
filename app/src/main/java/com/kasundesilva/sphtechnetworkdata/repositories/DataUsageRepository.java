@@ -13,7 +13,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class DataUsageRepository {
 
@@ -23,63 +22,75 @@ public class DataUsageRepository {
     private GovDataService mGovDataService;
 
 
-    public static DataUsageRepository getInstance(){
-        if(instance == null){
+    public static DataUsageRepository getInstance() {
+        if (instance == null) {
             instance = new DataUsageRepository();
         }
         return instance;
     }
 
-    public MutableLiveData<List<AnnualDataInfo>> getAnnualUsageData(){
-        setAnnualUsageData();
-        MutableLiveData<List<AnnualDataInfo>> data = new MutableLiveData<>();
-        data.setValue(dataSet);
-        return data;
-    }
+    public MutableLiveData<List<AnnualDataInfo>> getAnnualUsageData() {
 
-    private void setAnnualUsageData(){
+        final MutableLiveData<List<AnnualDataInfo>> data = new MutableLiveData<>();
 
         mGovDataService = APIClient.getClient().create(GovDataService.class);
         Call<UsageDataPojo> call = mGovDataService.getUsageData();
+
         call.enqueue(new Callback<UsageDataPojo>() {
             @Override
             public void onResponse(Call<UsageDataPojo> call, Response<UsageDataPojo> response) {
 
-               List<UsageDataPojo.Record> recodes = response.body().getResult().getRecords();
+                List<UsageDataPojo.Record> recodes = response.body().getResult().getRecords();
 
-                for(UsageDataPojo.Record r: recodes){
-                    System.out.println(r.getQuarter());
-                    System.out.println(r.getVolumeOfMobileData());
+                // generate model data
+                String prvYear = null;
+                AnnualDataInfo aData = new AnnualDataInfo();
+
+                for (UsageDataPojo.Record r : recodes) {
+
+                    String[] yearNquater = r.getQuarter().split("-");
+
+                    // filter year for above 2008
+                    if(Integer.parseInt(yearNquater[0]) < 2008)
+                        continue;
+
+                    if (prvYear != null && !prvYear.equals(yearNquater[0])) {
+                        dataSet.add(aData);
+                        aData = new AnnualDataInfo();
+                    }
+                    aData.setYear(yearNquater[0]);
+
+                    switch (yearNquater[1]) {
+                        case "Q1":
+                            aData.setQ1Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                            break;
+                        case "Q2":
+                            aData.setQ2Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                            break;
+                        case "Q3":
+                            aData.setQ3Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                            break;
+                        case "Q4":
+                            aData.setQ4Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                            break;
+                        default:
+
+                    }
+
+                    prvYear = yearNquater[0];
                 }
+                dataSet.add(aData);
+                data.setValue(dataSet);
             }
 
             @Override
             public void onFailure(Call<UsageDataPojo> call, Throwable t) {
-                System.out.println("XXXXXXXXXXXXX");
+                data.setValue(null);
             }
+
         });
 
-        dataSet.add(
-                new AnnualDataInfo("2018",1.23,2.33,1.2,2.3)
-        );
-
-        dataSet.add(
-                new AnnualDataInfo("2017",1.23,2.33,1.2,2.3)
-        );
-
-        dataSet.add(
-                new AnnualDataInfo("2016",1.23,2.33,1.2,2.3)
-        );
-
-        dataSet.add(
-                new AnnualDataInfo("2015",1.23,2.33,1.2,2.3)
-        );
-
-        dataSet.add(
-                new AnnualDataInfo("2014",1.23,2.33,1.2,2.3)
-        );
+        return data;
 
     }
-
-
 }

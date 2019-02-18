@@ -14,6 +14,7 @@ import com.kasundesilva.sphtechnetworkdata.adapters.DataInfoAdapter;
 import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
 import com.kasundesilva.sphtechnetworkdata.viewmodels.DataUsageViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataUsageInfoActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class DataUsageInfoActivity extends AppCompatActivity {
         mDataUsageViewModel.getAnnualData().observe(this, new Observer<List<AnnualDataInfo>>() {
             @Override
             public void onChanged(@Nullable List<AnnualDataInfo> annualDataInfo) {
+                mAdapter.setmAnnualData(annualDataInfo);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -45,18 +47,18 @@ public class DataUsageInfoActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
-    private void initRecyclerView(){
-        mAdapter = new DataInfoAdapter(this, mDataUsageViewModel.getAnnualData().getValue() );
+    private void initRecyclerView() {
+        mAdapter = new DataInfoAdapter(this, new ArrayList<AnnualDataInfo>());
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mDataInfoRecyclerView.setLayoutManager(linearLayoutManager);
         mDataInfoRecyclerView.setAdapter(mAdapter);
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void hideProgressBar(){
+    private void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
 }
