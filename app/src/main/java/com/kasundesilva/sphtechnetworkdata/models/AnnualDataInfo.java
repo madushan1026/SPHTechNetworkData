@@ -7,12 +7,14 @@ public class AnnualDataInfo {
     private double q3Usage;
     private double q4Usage;
     private String year;
+    private String downTrendQuatre;
 
     public AnnualDataInfo() {
         this.q1Usage = 0;
         this.q2Usage = 0;
         this.q3Usage = 0;
         this.q4Usage = 0;
+        this.downTrendQuatre = "";
     }
 
     public AnnualDataInfo(String year) {
@@ -34,20 +36,28 @@ public class AnnualDataInfo {
     }
 
     public boolean isDecreased() {
-        if (q1Usage > q2Usage)
+        if (q1Usage > q2Usage){
+            downTrendQuatre = "Q2";
             return true;
+        }
 
         if (q2Usage > q3Usage)
+        {
+            downTrendQuatre = "Q3";
             return true;
+        }
 
         if (q3Usage > q4Usage)
+        {
+            downTrendQuatre = "Q4";
             return true;
+        }
 
         return false;
     }
 
-    public void setUsagebyQuater() {
-
+    public String getDownTredingQuater() {
+        return downTrendQuatre;
     }
 
     public double getQ1Usage() {
