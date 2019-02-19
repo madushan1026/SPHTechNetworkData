@@ -30,14 +30,23 @@ public class AnnualDataInfo {
     }
 
     public String getAnnualUsage() {
-        return Double.toString(q1Usage + q2Usage + q3Usage + q4Usage);
+        return String.format("%.4f", q1Usage + q2Usage + q3Usage + q4Usage);
     }
 
     public boolean isDecreased() {
-        return true;
+        if (q1Usage > q2Usage)
+            return true;
+
+        if (q2Usage > q3Usage)
+            return true;
+
+        if (q3Usage > q4Usage)
+            return true;
+
+        return false;
     }
 
-    public void setUsagebyQuater(){
+    public void setUsagebyQuater() {
 
     }
 

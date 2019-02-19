@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kasundesilva.sphtechnetworkdata.R;
@@ -38,6 +39,12 @@ public class DataInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((ViewHolder) viewHolder).mYear.setText(mAnnualData.get(i).getYear());
         ((ViewHolder) viewHolder).mUsage.setText(mAnnualData.get(i).getAnnualUsage());
 
+        if (mAnnualData.get(i).isDecreased())
+            ((ViewHolder) viewHolder).mDownTrentButton.setVisibility(View.VISIBLE);
+        else
+            ((ViewHolder) viewHolder).mDownTrentButton.setVisibility(View.GONE);
+
+
     }
 
     @Override
@@ -55,11 +62,13 @@ public class DataInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private TextView mYear;
         private TextView mUsage;
+        private ImageButton mDownTrentButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mYear = itemView.findViewById(R.id.year_text);
             mUsage = itemView.findViewById(R.id.usage_text);
+            mDownTrentButton = itemView.findViewById(R.id.down_trend_imagebutton);
         }
     }
 }
