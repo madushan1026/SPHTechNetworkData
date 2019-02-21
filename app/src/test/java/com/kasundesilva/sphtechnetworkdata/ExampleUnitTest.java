@@ -1,5 +1,7 @@
 package com.kasundesilva.sphtechnetworkdata;
 
+import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,8 +12,25 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void test_isDecreased_with_Q2() {
+        AnnualDataInfo aAnnualDataInfo = new AnnualDataInfo("2018", 5, 3, 4, 5);
+        assertEquals(aAnnualDataInfo.isDecreased(), true);
+        assertEquals(aAnnualDataInfo.getDownTredingQuater(),"Q2");
+    }
+
+    @Test
+    public void test_isDecreased_with_Q3() {
+        AnnualDataInfo aAnnualDataInfo = new AnnualDataInfo("2018", 5, 6, 4, 7);
+        assertEquals(aAnnualDataInfo.isDecreased(), true);
+        assertEquals(aAnnualDataInfo.getDownTredingQuater(),"Q3");
+    }
+
+    @Test
+    public void test_isDecreased_with_Q4() {
+        AnnualDataInfo aAnnualDataInfo = new AnnualDataInfo("2018", 5, 6, 7, 5);
+        assertEquals(aAnnualDataInfo.isDecreased(), true);
+        assertEquals(aAnnualDataInfo.getDownTredingQuater(),"Q4");
     }
 }

@@ -9,6 +9,14 @@ public class AnnualDataInfo {
     private String year;
     private String downTrendQuatre;
 
+    public AnnualDataInfo(String year, double q1Usage, double q2Usage, double q3Usage, double q4Usage) {
+        this.q1Usage = q1Usage;
+        this.q2Usage = q2Usage;
+        this.q3Usage = q3Usage;
+        this.q4Usage = q4Usage;
+        this.year = year;
+    }
+
     public AnnualDataInfo() {
         this.q1Usage = 0;
         this.q2Usage = 0;
@@ -16,15 +24,6 @@ public class AnnualDataInfo {
         this.q4Usage = 0;
         this.downTrendQuatre = "";
     }
-
-    public AnnualDataInfo(String year) {
-        this.year = year;
-        this.q1Usage = 0;
-        this.q2Usage = 0;
-        this.q3Usage = 0;
-        this.q4Usage = 0;
-    }
-
 
     // getters
     public String getYear() {
