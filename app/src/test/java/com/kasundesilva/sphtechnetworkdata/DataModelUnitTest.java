@@ -1,6 +1,7 @@
 package com.kasundesilva.sphtechnetworkdata;
 
 import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
+import com.kasundesilva.sphtechnetworkdata.repositories.DataUsageRepository;
 
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class DataModelUnitTest {
 
     @Test
     public void test_isDecreased_with_Q2() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SPHTechNetworkData</string>
+    <string name="app_name">NetworkData</string>
     <string name="lbl_datatype">Petabytes</string>
     <string name="lbl_usage">Usage:</string>
     <string name="lbl_year">Year:</string>

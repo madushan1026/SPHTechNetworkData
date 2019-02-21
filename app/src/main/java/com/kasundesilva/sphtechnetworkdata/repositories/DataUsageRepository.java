@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class DataUsageRepository {
 
     private static DataUsageRepository instance;
-    private ArrayList<AnnualDataInfo> dataSet = new ArrayList<>();
+
 
     private GovDataService mGovDataService;
 
@@ -43,45 +43,7 @@ public class DataUsageRepository {
                 List<UsageDataPojo.Record> recodes = response.body().getResult().getRecords();
 
                 // generate model data
-                String prvYear = null;
-                AnnualDataInfo aData = new AnnualDataInfo();
-
-                for (UsageDataPojo.Record r : recodes) {
-
-                    String[] yearNquater = r.getQuarter().split("-");
-
-                    // filter year for above 2008
-                    if(Integer.parseInt(yearNquater[0]) < 2008)
-                        continue;
-
-                    if (prvYear != null && !prvYear.equals(yearNquater[0])) {
-                        dataSet.add(aData);
-                        aData = new AnnualDataInfo();
-                    }
-                    aData.setYear(yearNquater[0]);
-
-                    switch (yearNquater[1]) {
-                        case "Q1":
-                            aData.setQ1Usage(Double.parseDouble(r.getVolumeOfMobileData()));
-                            break;
-                        case "Q2":
-                            aData.setQ2Usage(Double.parseDouble(r.getVolumeOfMobileData()));
-                            break;
-                        case "Q3":
-                            aData.setQ3Usage(Double.parseDouble(r.getVolumeOfMobileData()));
-                            break;
-                        case "Q4":
-                            aData.setQ4Usage(Double.parseDouble(r.getVolumeOfMobileData()));
-                            break;
-                        default:
-
-                    }
-
-                    prvYear = yearNquater[0];
-                }
-                // adding last data
-                dataSet.add(aData);
-                data.setValue(dataSet);
+                data.setValue(generateModelData(recodes));
             }
 
             @Override
@@ -93,5 +55,49 @@ public class DataUsageRepository {
 
         return data;
 
+    }
+
+    private ArrayList<AnnualDataInfo> generateModelData(List<UsageDataPojo.Record> recodes) {
+
+        ArrayList<AnnualDataInfo> dataSet = new ArrayList<>();
+        String prvYear = null;
+        AnnualDataInfo aData = new AnnualDataInfo();
+
+        for (UsageDataPojo.Record r : recodes) {
+
+            String[] yearNquater = r.getQuarter().split("-");
+
+            // filter year for above 2008
+            if (Integer.parseInt(yearNquater[0]) < 2008)
+                continue;
+
+            if (prvYear != null && !prvYear.equals(yearNquater[0])) {
+                dataSet.add(aData);
+                aData = new AnnualDataInfo();
+            }
+            aData.setYear(yearNquater[0]);
+
+            switch (yearNquater[1]) {
+                case "Q1":
+                    aData.setQ1Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                    break;
+                case "Q2":
+                    aData.setQ2Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                    break;
+                case "Q3":
+                    aData.setQ3Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                    break;
+                case "Q4":
+                    aData.setQ4Usage(Double.parseDouble(r.getVolumeOfMobileData()));
+                    break;
+                default:
+
+            }
+            prvYear = yearNquater[0];
+        }
+
+        // adding last data
+        dataSet.add(aData);
+        return dataSet;
     }
 }
