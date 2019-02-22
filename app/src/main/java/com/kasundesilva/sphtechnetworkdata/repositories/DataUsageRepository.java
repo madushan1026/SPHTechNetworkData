@@ -1,6 +1,8 @@
 package com.kasundesilva.sphtechnetworkdata.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.widget.Toast;
 
 import com.kasundesilva.sphtechnetworkdata.models.AnnualDataInfo;
 import com.kasundesilva.sphtechnetworkdata.network.APIClient;
@@ -17,14 +19,17 @@ import retrofit2.Response;
 public class DataUsageRepository {
 
     private static DataUsageRepository instance;
-
+    Context context;
 
     private GovDataService mGovDataService;
 
+    public DataUsageRepository(Context context) {
+        this.context = context;
+    }
 
-    public static DataUsageRepository getInstance() {
+    public static DataUsageRepository getInstance(Context context) {
         if (instance == null) {
-            instance = new DataUsageRepository();
+            instance = new DataUsageRepository(context);
         }
         return instance;
     }
@@ -33,22 +38,41 @@ public class DataUsageRepository {
 
         final MutableLiveData<List<AnnualDataInfo>> data = new MutableLiveData<>();
 
-        mGovDataService = APIClient.getClient().create(GovDataService.class);
+        mGovDataService = APIClient.getClient(context).create(GovDataService.class);
         Call<UsageDataPojo> call = mGovDataService.getUsageData();
 
         call.enqueue(new Callback<UsageDataPojo>() {
             @Override
             public void onResponse(Call<UsageDataPojo> call, Response<UsageDataPojo> response) {
 
-                List<UsageDataPojo.Record> recodes = response.body().getResult().getRecords();
+                if (response.isSuccessful()) {
 
-                // generate model data
-                data.setValue(generateModelData(recodes));
+                    List<UsageDataPojo.Record> recodes = response.body().getResult().getRecords();
+                    // generate model data
+                    data.setValue(generateModelData(recodes));
+                }
+                else {
+                    // error case
+                    switch (response.code()) {
+                        case 404:
+                            Toast.makeText(context, "not found", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 500:
+                            Toast.makeText(context, "server broken", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(context, "unknown error", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<UsageDataPojo> call, Throwable t) {
-                data.setValue(null);
+
+                Toast.makeText(context, "network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+
+
             }
 
         });
