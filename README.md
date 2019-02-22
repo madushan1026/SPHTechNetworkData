@@ -11,3 +11,7 @@ Technologies that has been used:
 - Material Design, RecyclerView, CardView
 
 
+Note :
+
+have to disable device animation for Ui testing.
+
